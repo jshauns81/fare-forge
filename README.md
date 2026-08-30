@@ -19,12 +19,18 @@ combined, sorted by aisle.
 
 ## Running it
 
+Requires **Node 22.5+** (the built-in `node:sqlite` module).
+
 ```bash
 npm install
 npm run dev        # http://localhost:3000
 ```
 
 Production: `npm run build && npm start`. Tests: `npm test`.
+
+If the server's clock lives in a different timezone than the family (a UTC
+VPS, say), set `TZ` so "this week" rolls over at your midnight, not the
+server's: `TZ=America/New_York npm start`.
 
 Data lives in a single SQLite file at `data/fareforge.db` (created on first
 run, gitignored) via Node's built-in `node:sqlite` — no native dependencies, no

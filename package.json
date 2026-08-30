@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=22.5.0"
+  },
   "description": "Family weekly meal planner that forges Pinterest and blog recipe links down to just the ingredients and the instructions.",
   "scripts": {
     "dev": "next dev",

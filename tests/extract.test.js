@@ -28,6 +28,24 @@ test.before(async () => {
       res.end(read('pinterest-pin.html').replace('__OUTBOUND__', outbound));
       return;
     }
+    if (req.url === '/hop1') {
+      res.statusCode = 302;
+      res.setHeader('location', '/redirect');
+      res.end();
+      return;
+    }
+    if (req.url === '/redirect') {
+      res.statusCode = 301;
+      res.setHeader('location', `${base}/blog`);
+      res.end();
+      return;
+    }
+    if (req.url === '/loop') {
+      res.statusCode = 302;
+      res.setHeader('location', '/loop');
+      res.end();
+      return;
+    }
     const file = routes[req.url];
     if (!file) {
       res.statusCode = 404;
@@ -82,6 +100,18 @@ test('follows a Pinterest pin to its source page', async () => {
   assert.equal(hops, 1);
   assert.ok(report[0].startsWith('Followed the pin'), report[0]);
   assert.equal(recipe.title, 'Crispy Honey-Garlic Chicken Thighs');
+});
+
+test('follows redirects hop by hop (relative and absolute)', async () => {
+  const { recipe } = await forgeFromUrl(`${base}/hop1`);
+  assert.equal(recipe.title, 'Crispy Honey-Garlic Chicken Thighs');
+});
+
+test('gives up on a redirect loop', async () => {
+  await assert.rejects(
+    () => forgeFromUrl(`${base}/loop`),
+    (err) => err instanceof ForgeError && /redirected too many times/.test(err.message),
+  );
 });
 
 test('says so clearly when a page has no recipe', async () => {
