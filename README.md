@@ -12,10 +12,10 @@ combined, sorted by aisle.
 
 | Surface | What it does |
 | --- | --- |
-| **Week Board** (`/`) | Seven days at a glance. Click an empty day to plan it, drag dinners between days, mark leftovers or eating out, copy last week. |
+| **Week Board** (`/`) | Two weeks at a glance (toggle down to one). Click an empty day to plan it, drag dinners between days — across weeks too — mark leftovers or eating out, copy the previous stretch. |
 | **The Forge** (`/forge`) | Paste a recipe link (Pinterest pins resolve to their source) or raw page text. Shows a strip report: what was found, what was cut, what was kept. |
 | **Recipe Box** (`/recipes`) | Everything you've forged, searchable. Each recipe view has tap-to-check ingredients, a serving scaler, big cook-mode steps, and a credit link to the original. |
-| **Market List** (`/market`) | The week's ingredients aggregated per aisle with per-recipe source counts. Check off as you shop, add staples, copy as text, or print it like a receipt. |
+| **Market List** (`/market`) | The whole fortnight's ingredients (or one week's) aggregated per aisle with per-recipe source counts. Check off as you shop, add staples, copy as text, or print it like a receipt. |
 
 ## Running it
 

@@ -31,28 +31,37 @@ export async function POST(req) {
     }
 
     if (op === 'move') {
-      const { weekStart, fromDay, toDay } = body;
-      if (!isValidWeekStart(weekStart) || !(fromDay >= 0 && fromDay <= 6) || !(toDay >= 0 && toDay <= 6)) {
+      // Moves can cross weeks — the board shows a fortnight.
+      const { fromWeek, fromDay, toWeek, toDay } = body;
+      if (
+        !isValidWeekStart(fromWeek) || !isValidWeekStart(toWeek) ||
+        !(fromDay >= 0 && fromDay <= 6) || !(toDay >= 0 && toDay <= 6)
+      ) {
         return NextResponse.json({ error: 'Bad request' }, { status: 400 });
       }
-      const plan = getPlan(weekStart);
-      const from = plan.find((p) => p.day === fromDay);
+      if (fromWeek === toWeek && fromDay === toDay) return NextResponse.json({ ok: true });
+      const from = getPlan(fromWeek).find((p) => p.day === fromDay);
       if (!from) return NextResponse.json({ error: 'Nothing to move' }, { status: 400 });
-      const to = plan.find((p) => p.day === toDay);
-      setPlanEntry({ weekStart, day: toDay, recipeId: from.recipe?.id ?? null, note: from.note });
+      const to = getPlan(toWeek).find((p) => p.day === toDay);
+      setPlanEntry({ weekStart: toWeek, day: toDay, recipeId: from.recipe?.id ?? null, note: from.note });
       if (to) {
         // swap, so a drop on an occupied day never loses a dinner
-        setPlanEntry({ weekStart, day: fromDay, recipeId: to.recipe?.id ?? null, note: to.note });
+        setPlanEntry({ weekStart: fromWeek, day: fromDay, recipeId: to.recipe?.id ?? null, note: to.note });
       } else {
-        clearPlanEntry(weekStart, fromDay);
+        clearPlanEntry(fromWeek, fromDay);
       }
       return NextResponse.json({ ok: true });
     }
 
     if (op === 'copy') {
+      // span=1: last week → this week. span=2: the previous fortnight → this one.
       const { toWeek } = body;
+      const span = body.span === 2 ? 2 : 1;
       if (!isValidWeekStart(toWeek)) return NextResponse.json({ error: 'Bad request' }, { status: 400 });
-      const copied = copyPlan(shiftWeek(toWeek, -1), toWeek);
+      let copied = 0;
+      for (let i = 0; i < span; i++) {
+        copied += copyPlan(shiftWeek(toWeek, i - span), shiftWeek(toWeek, i));
+      }
       return NextResponse.json({ ok: true, copied });
     }
 

@@ -16,10 +16,10 @@ function minutesLabel(min) {
   return `${min} min`;
 }
 
-export default function Board({ weekStart, days, recipes }) {
+export default function Board({ weeks, recipes, showWeekHeads = false }) {
   const router = useRouter();
-  const [pickerDay, setPickerDay] = useState(null);
-  const [dropDay, setDropDay] = useState(null);
+  const [picker, setPicker] = useState(null); // { weekStart, day, abbr }
+  const [dropKey, setDropKey] = useState(null); // `${weekStart}:${day}`
   const [busy, setBusy] = useState(false);
 
   async function call(body) {
@@ -36,107 +36,132 @@ export default function Board({ weekStart, days, recipes }) {
     }
   }
 
-  function onDrop(e, toDay) {
+  function onDragStart(e, weekStart, day) {
+    e.dataTransfer.setData('text/plain', JSON.stringify({ week: weekStart, day }));
+  }
+
+  function onDrop(e, toWeek, toDay) {
     e.preventDefault();
-    setDropDay(null);
-    const fromDay = Number(e.dataTransfer.getData('text/plain'));
-    if (Number.isInteger(fromDay) && fromDay !== toDay) {
-      call({ op: 'move', weekStart, fromDay, toDay });
+    setDropKey(null);
+    let from;
+    try {
+      from = JSON.parse(e.dataTransfer.getData('text/plain'));
+    } catch {
+      return;
     }
+    if (!from || typeof from.week !== 'string' || !Number.isInteger(from.day)) return;
+    if (from.week === toWeek && from.day === toDay) return;
+    call({ op: 'move', fromWeek: from.week, fromDay: from.day, toWeek, toDay });
   }
 
   return (
     <>
-      <div className="board">
-        {days.map(({ day, abbr, dateNum, isToday, entry }) => (
-          <div
-            key={day}
-            className={`day-col${day >= 5 ? ' weekend' : ''}`}
-            onDragOver={(e) => {
-              e.preventDefault();
-              setDropDay(day);
-            }}
-            onDragLeave={() => setDropDay((d) => (d === day ? null : d))}
-            onDrop={(e) => onDrop(e, day)}
-          >
-            <div className="day-head">
-              <span className="day-name">{abbr}</span>
-              <span className="day-num">{dateNum}</span>
-              {isToday && <span className="day-today">TODAY</span>}
-            </div>
-
-            {entry && entry.kind === 'recipe' && entry.recipe ? (
-              <div
-                className="meal-card"
-                draggable
-                onDragStart={(e) => e.dataTransfer.setData('text/plain', String(day))}
-              >
-                <Link href={`/recipes/${entry.recipe.id}`} className="meal-title" style={{ display: 'block' }}>
-                  {entry.recipe.title}
-                </Link>
-                <span className="meal-meta">
-                  {[minutesLabel(entry.recipe.totalMin), entry.recipe.servings ? `serves ${entry.recipe.servings}` : null]
-                    .filter(Boolean)
-                    .join(' · ') || 'forged recipe'}
-                </span>
-                {entry.recipe.tags?.length > 0 && (
-                  <span className="meal-tags">
-                    {entry.recipe.tags.slice(0, 2).map((t) => (
-                      <span key={t} className={`tag${t === 'kid pick' ? ' tag-leaf' : ''}`}>{t}</span>
-                    ))}
-                  </span>
-                )}
-                <button
-                  className="meal-clear"
-                  aria-label={`Clear ${abbr}`}
-                  disabled={busy}
-                  onClick={() => call({ op: 'clear', weekStart, day })}
-                >
-                  <X size={12} />
-                </button>
+      <div className="fortnight">
+        {weeks.map((w) => (
+          <section key={w.weekStart} className="week-sec" data-week={w.weekStart}>
+            {showWeekHeads && (
+              <div className="week-sec-head">
+                <span className="week-sec-name">{w.rel || `Week of ${w.dates}`}</span>
+                {w.rel && <span className="week-sec-dates">{w.dates}</span>}
+                <span className="week-sec-rule" />
+                <span className="week-sec-dates">{w.days.filter((d) => d.entry).length} of 7 set</span>
               </div>
-            ) : entry && entry.kind === 'note' ? (
-              <div className="note-card" draggable onDragStart={(e) => e.dataTransfer.setData('text/plain', String(day))}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                  <Redo size={14} stroke="#8A7F70" />
-                  <span className="meal-title">{entry.note}</span>
-                </span>
-                <button
-                  className="meal-clear"
-                  aria-label={`Clear ${abbr}`}
-                  disabled={busy}
-                  onClick={() => call({ op: 'clear', weekStart, day })}
-                >
-                  <X size={12} />
-                </button>
-              </div>
-            ) : (
-              <button
-                className={`empty-slot${dropDay === day ? ' drop-target' : ''}`}
-                onClick={() => setPickerDay(day)}
-                disabled={busy}
-              >
-                <Plus size={17} />
-                <span className="empty-slot-label">Plan {abbr.charAt(0) + abbr.slice(1).toLowerCase()}</span>
-                <span className="mono-hint" style={{ fontSize: 9.5 }}>or drop a dinner here</span>
-              </button>
             )}
-          </div>
+            <div className="board">
+              {w.days.map(({ day, abbr, dateNum, isToday, entry }) => {
+                const key = `${w.weekStart}:${day}`;
+                return (
+                  <div
+                    key={key}
+                    className={`day-col${day >= 5 ? ' weekend' : ''}`}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      setDropKey(key);
+                    }}
+                    onDragLeave={() => setDropKey((k) => (k === key ? null : k))}
+                    onDrop={(e) => onDrop(e, w.weekStart, day)}
+                  >
+                    <div className="day-head">
+                      <span className="day-name">{abbr}</span>
+                      <span className="day-num">{dateNum}</span>
+                      {isToday && <span className="day-today">TODAY</span>}
+                    </div>
+
+                    {entry && entry.kind === 'recipe' && entry.recipe ? (
+                      <div className="meal-card" draggable onDragStart={(e) => onDragStart(e, w.weekStart, day)}>
+                        <Link href={`/recipes/${entry.recipe.id}`} className="meal-title" style={{ display: 'block' }}>
+                          {entry.recipe.title}
+                        </Link>
+                        <span className="meal-meta">
+                          {[minutesLabel(entry.recipe.totalMin), entry.recipe.servings ? `serves ${entry.recipe.servings}` : null]
+                            .filter(Boolean)
+                            .join(' · ') || 'forged recipe'}
+                        </span>
+                        {entry.recipe.tags?.length > 0 && (
+                          <span className="meal-tags">
+                            {entry.recipe.tags.slice(0, 2).map((t) => (
+                              <span key={t} className={`tag${t === 'kid pick' ? ' tag-leaf' : ''}`}>{t}</span>
+                            ))}
+                          </span>
+                        )}
+                        <button
+                          className="meal-clear"
+                          aria-label={`Clear ${abbr} ${dateNum}`}
+                          disabled={busy}
+                          onClick={() => call({ op: 'clear', weekStart: w.weekStart, day })}
+                        >
+                          <X size={12} />
+                        </button>
+                      </div>
+                    ) : entry && entry.kind === 'note' ? (
+                      <div className="note-card" draggable onDragStart={(e) => onDragStart(e, w.weekStart, day)}>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                          <Redo size={14} stroke="#8A7F70" />
+                          <span className="meal-title">{entry.note}</span>
+                        </span>
+                        <button
+                          className="meal-clear"
+                          aria-label={`Clear ${abbr} ${dateNum}`}
+                          disabled={busy}
+                          onClick={() => call({ op: 'clear', weekStart: w.weekStart, day })}
+                        >
+                          <X size={12} />
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        className={`empty-slot${dropKey === key ? ' drop-target' : ''}`}
+                        onClick={() => setPicker({ weekStart: w.weekStart, day, abbr, rel: w.rel })}
+                        disabled={busy}
+                        aria-label={`Plan ${abbr} ${dateNum}`}
+                      >
+                        <Plus size={17} />
+                        <span className="empty-slot-label">Plan {abbr.charAt(0) + abbr.slice(1).toLowerCase()}</span>
+                        <span className="mono-hint" style={{ fontSize: 9.5 }}>or drop a dinner here</span>
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </section>
         ))}
       </div>
 
-      {pickerDay != null && (
+      {picker != null && (
         <Picker
-          dayLabel={days[pickerDay].abbr}
+          heading={`Plan ${picker.abbr.charAt(0) + picker.abbr.slice(1).toLowerCase()}${picker.rel && picker.rel !== 'This week' ? ` · ${picker.rel.toLowerCase()}` : ''}`}
           recipes={recipes}
-          onClose={() => setPickerDay(null)}
+          onClose={() => setPicker(null)}
           onPickRecipe={(id) => {
-            setPickerDay(null);
-            call({ op: 'set', weekStart, day: pickerDay, recipeId: id });
+            const { weekStart, day } = picker;
+            setPicker(null);
+            call({ op: 'set', weekStart, day, recipeId: id });
           }}
           onPickNote={(note) => {
-            setPickerDay(null);
-            call({ op: 'set', weekStart, day: pickerDay, note });
+            const { weekStart, day } = picker;
+            setPicker(null);
+            call({ op: 'set', weekStart, day, note });
           }}
         />
       )}
@@ -144,7 +169,7 @@ export default function Board({ weekStart, days, recipes }) {
   );
 }
 
-function Picker({ dayLabel, recipes, onClose, onPickRecipe, onPickNote }) {
+function Picker({ heading, recipes, onClose, onPickRecipe, onPickNote }) {
   const [q, setQ] = useState('');
   const filtered = useMemo(() => {
     const needle = q.trim().toLowerCase();
@@ -158,7 +183,7 @@ function Picker({ dayLabel, recipes, onClose, onPickRecipe, onPickNote }) {
     <div className="modal-scrim" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div className="modal-head">
-          <span className="modal-title">Plan {dayLabel.charAt(0) + dayLabel.slice(1).toLowerCase()}</span>
+          <span className="modal-title">{heading}</span>
           <button className="icon-btn" onClick={onClose} aria-label="Close">
             <X size={13} />
           </button>

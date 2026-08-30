@@ -17,7 +17,7 @@ const AISLE_CLASS = {
 
 const STAPLE_SUGGESTIONS = ['milk', 'eggs', 'bread', 'bananas', 'coffee', 'butter', 'yogurt'];
 
-export default function MarketBoard({ weekStart, weekLabel, dinnerCount, groups, initialChecks, initialExtras }) {
+export default function MarketBoard({ weekStart, periodLabel, span = 1, dinnerCount, groups, initialChecks, initialExtras }) {
   const [checked, setChecked] = useState(() => new Set(initialChecks));
   const [extras, setExtras] = useState(initialExtras);
   const [customExtra, setCustomExtra] = useState('');
@@ -71,7 +71,7 @@ export default function MarketBoard({ weekStart, weekLabel, dinnerCount, groups,
   }
 
   function copyAsText() {
-    const lines = [`MARKET LIST · ${weekLabel.toUpperCase()}`];
+    const lines = [`MARKET LIST · ${periodLabel.toUpperCase()}${span === 2 ? ' · TWO WEEKS' : ''}`];
     for (const g of shoppable) {
       if (!g.items.length) continue;
       lines.push('', g.aisle.toUpperCase());
@@ -96,13 +96,13 @@ export default function MarketBoard({ weekStart, weekLabel, dinnerCount, groups,
     <>
       <header className="page-header">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-          <span className="kicker">Market List · week of {weekLabel}</span>
+          <span className="kicker">Market List · {span === 2 ? `${periodLabel} · two weeks` : `week of ${periodLabel}`}</span>
           <h1 className="page-title">
             {totalItems} {totalItems === 1 ? 'item' : 'items'}, {aisleCount} {aisleCount === 1 ? 'aisle' : 'aisles'}
           </h1>
           <span className="page-sub">
             {dinnerCount > 0
-              ? `Built from ${dinnerCount} planned ${dinnerCount === 1 ? 'dinner' : 'dinners'} · duplicates merged, units combined`
+              ? `Built from ${dinnerCount} planned ${dinnerCount === 1 ? 'dinner' : 'dinners'}${span === 2 ? ' across two weeks' : ''} · duplicates merged, units combined`
               : 'Nothing planned yet — put dinners on the board and the list builds itself.'}
           </span>
         </div>

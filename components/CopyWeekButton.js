@@ -4,17 +4,17 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Wave } from '@/components/icons';
 
-export default function CopyWeekButton({ weekStart }) {
+export default function CopyWeekButton({ weekStart, span = 1 }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
 
-  async function copyLastWeek() {
+  async function copyPrevious() {
     setBusy(true);
     try {
       await fetch('/api/plan', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ op: 'copy', toWeek: weekStart }),
+        body: JSON.stringify({ op: 'copy', toWeek: weekStart, span }),
       });
       router.refresh();
     } finally {
@@ -22,10 +22,11 @@ export default function CopyWeekButton({ weekStart }) {
     }
   }
 
+  const label = span === 2 ? 'Copy previous 2 weeks' : 'Copy last week';
   return (
-    <button className="btn" onClick={copyLastWeek} disabled={busy}>
+    <button className="btn" onClick={copyPrevious} disabled={busy}>
       <Wave size={15} />
-      <span>{busy ? 'Copying…' : 'Copy last week'}</span>
+      <span>{busy ? 'Copying…' : label}</span>
     </button>
   );
 }

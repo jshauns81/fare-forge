@@ -4,7 +4,7 @@ import IngredientPanel from '@/components/IngredientPanel';
 import PlanItMenu from '@/components/PlanItMenu';
 import { ChevronLeft, External, Scissors } from '@/components/icons';
 import { getPlan, getRecipe } from '@/lib/db';
-import { DAY_NAMES, weekStartOf } from '@/lib/weeks';
+import { DAY_NAMES, shiftWeek, weekStartOf } from '@/lib/weeks';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,8 +14,13 @@ export default async function RecipePage({ params }) {
   if (!recipe) notFound();
 
   const weekStart = weekStartOf();
-  const plannedEntry = getPlan(weekStart).find((p) => p.recipe?.id === recipe.id);
-  const plannedDay = plannedEntry ? DAY_NAMES[plannedEntry.day] : null;
+  const thisWeek = getPlan(weekStart).find((p) => p.recipe?.id === recipe.id);
+  const nextWeek = thisWeek ? null : getPlan(shiftWeek(weekStart, 1)).find((p) => p.recipe?.id === recipe.id);
+  const plannedLabel = thisWeek
+    ? DAY_NAMES[thisWeek.day]
+    : nextWeek
+      ? `next ${DAY_NAMES[nextWeek.day]}`
+      : null;
 
   const trim = recipe.strip;
 
@@ -56,7 +61,7 @@ export default async function RecipePage({ params }) {
             <span key={t} className="tag" style={{ padding: '5px 8px' }}>{t}</span>
           ))}
           <div style={{ marginLeft: 'auto' }}>
-            <PlanItMenu recipeId={recipe.id} plannedDay={plannedDay} weekStart={weekStart} />
+            <PlanItMenu recipeId={recipe.id} plannedLabel={plannedLabel} weekStart={weekStart} />
           </div>
         </div>
       </div>

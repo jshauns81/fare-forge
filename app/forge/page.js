@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react';
 import Link from 'next/link';
 import { Box, Check, ChevronLeft, FlameBase, LinkIcon, Spinner } from '@/components/icons';
-import { DAY_ABBR } from '@/lib/weeks';
+import { DAY_ABBR, shiftWeek } from '@/lib/weeks';
 
 const PENDING_LINES = [
   'Reaching the page…',
@@ -57,14 +57,14 @@ export default function ForgePage() {
     setPhase('done');
   }
 
-  async function planIt(day) {
-    const weekStart = currentWeekStart();
+  async function planIt(day, weekOffset) {
+    const weekStart = shiftWeek(currentWeekStart(), weekOffset);
     await fetch('/api/plan', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ op: 'set', weekStart, day, recipeId: result.id }),
     });
-    setPlanned(day);
+    setPlanned({ day, weekOffset });
   }
 
   function reset() {
@@ -188,21 +188,32 @@ export default function ForgePage() {
                 </div>
               ))}
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-              <span className="mono-hint">{planned != null ? `On the board — ${DAY_ABBR[planned]}` : 'Plan it this week'}</span>
-              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                {DAY_ABBR.map((abbr, day) => (
-                  <button
-                    key={abbr}
-                    className="staple-chip"
-                    style={planned === day ? { background: 'var(--ember)', color: 'var(--parchment)', borderColor: 'var(--ember-deep)' } : undefined}
-                    onClick={() => planIt(day)}
-                  >
-                    {planned === day ? <Check size={11} /> : null}
-                    {abbr}
-                  </button>
-                ))}
-              </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <span className="mono-hint">
+                {planned != null
+                  ? `On the board — ${DAY_ABBR[planned.day]}${planned.weekOffset === 1 ? ' next week' : ''}`
+                  : 'Plan it — this week or next'}
+              </span>
+              {[0, 1].map((weekOffset) => (
+                <div key={weekOffset} style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
+                  <span className="mono-hint" style={{ fontSize: 9.5, minWidth: 40 }}>{weekOffset === 0 ? 'THIS' : 'NEXT'}</span>
+                  {DAY_ABBR.map((abbr, day) => {
+                    const isPicked = planned?.day === day && planned?.weekOffset === weekOffset;
+                    return (
+                      <button
+                        key={abbr}
+                        className="staple-chip"
+                        aria-label={`${abbr}${weekOffset === 1 ? ' next week' : ' this week'}`}
+                        style={isPicked ? { background: 'var(--ember)', color: 'var(--parchment)', borderColor: 'var(--ember-deep)' } : undefined}
+                        onClick={() => planIt(day, weekOffset)}
+                      >
+                        {isPicked ? <Check size={11} /> : null}
+                        {abbr}
+                      </button>
+                    );
+                  })}
+                </div>
+              ))}
             </div>
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               <Link className="btn btn-ink" href={`/recipes/${result.id}`}>

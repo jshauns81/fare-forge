@@ -282,6 +282,45 @@ input:focus, textarea:focus { outline: 2px solid var(--ember); outline-offset: 1
 
 /* ---------- week board ---------- */
 
+.fortnight { display: flex; flex-direction: column; gap: 26px; }
+.week-sec { display: flex; flex-direction: column; gap: 12px; }
+.week-sec-head { display: flex; align-items: baseline; gap: 10px; }
+.week-sec-name {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ember-deep);
+}
+.week-sec-dates {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ash);
+}
+.week-sec-rule { flex: 1 1 auto; border-top: 1px solid var(--line); align-self: center; }
+
+.seg-toggle {
+  display: inline-flex;
+  border: 1.5px solid var(--ink);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--parchment);
+  box-shadow: var(--shadow-press-sm);
+}
+.seg-toggle a {
+  padding: 7px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ash-deep);
+  line-height: 1;
+}
+.seg-toggle a:hover { color: var(--ink); background: var(--recess); }
+.seg-toggle a.active { background: var(--ink); color: var(--parchment); }
+.seg-toggle a.active:hover { color: var(--parchment); background: var(--ink); }
+
 .board {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
