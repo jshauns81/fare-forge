@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+  <style>
+    body { margin: 0; font-family: 'Bricolage Grotesque', 'Arial Narrow', Arial, sans-serif; }
+    a { color: #C7521F; } a:hover { color: #9C3E14; }
+  </style>
+</helmet>
+<div style="width: 1440px; height: 900px; box-sizing: border-box; background: #F6F1E5; color: #24201A; display: flex; flex-direction: column; padding: 24px 48px 0 48px; overflow: hidden;">
+
+  <!-- Top bar -->
+  <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+    <div style="display: flex; align-items: center; gap: 9px; color: #6E6355; font-size: 13.5px; font-weight: 500;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6E6355" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg>
+      <span>Recipe Box</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <div style="display: flex; align-items: center; gap: 7px; font-family: 'IBM Plex Mono', Menlo, monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; color: #FDF9F0; background: #5F7F4C; border-radius: 5px; padding: 5px 9px;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FDF9F0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6-6 6 6M6 15l6 6 6-6"></path></svg>
+        <span>88% TRIMMED &middot; 3,412 WORDS REMOVED</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 500; color: #6E6355; border: 1px solid #D9CFBA; border-radius: 5px; padding: 5px 9px; background: #FDF9F0;">
+        <span>via halfbakedharvest.com</span>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#6E6355" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"></path></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- Title block -->
+  <div style="display: flex; flex-direction: column; gap: 12px; border-bottom: 2px solid #24201A; padding: 18px 0 20px 0;">
+    <div style="font-size: 42px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.05; max-width: 900px;">Sheet-Pan Lemon Chicken &amp; Potatoes</div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <div style="display: flex; align-items: center; gap: 10px; border: 1.5px solid #24201A; background: #FDF9F0; border-radius: 7px; padding: 6px 10px; box-shadow: 2px 2px 0 0 rgba(36,32,26,0.14);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#24201A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path></svg>
+        <div style="font-family: 'IBM Plex Mono', Menlo, monospace; font-size: 12px; font-weight: 600;">SERVES 4</div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#24201A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>
+      </div>
+      <div style="font-family: 'IBM Plex Mono', Menlo, monospace; font-size: 11px; color: #6E6355; border: 1px solid #D9CFBA; background: #EEE7D7; border-radius: 5px; padding: 6px 10px;">PREP 15 MIN</div>
+      <div style="font-family: 'IBM Plex Mono', Menlo, monospace; font-size: 11px; color: #6E6355; border: 1px solid #D9CFBA; background: #EEE7D7; border-radius: 5px; padding: 6px 10px;">COOK 25 MIN</div>
+      <div style="margin-left: auto; display: flex; align-items: center; gap: 8px; background: #24201A; color: #FDF9F0; border-radius: 8px; padding: 8px 14px; font-size: 13.5px; font-weight: 600; box-shadow: 2px 2px 0 0 rgba(36,32,26,0.3);">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FDF9F0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"></rect><path d="M3 9h18"></path></svg>
+        <span>On the board &middot; Monday</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Body: ingredients | steps -->
+  <div style="flex: 1 1 auto; min-height: 0; display: flex; gap: 36px; padding-top: 24px;">
+
+    <!-- Ingredients -->
+    <div style="flex: 0 0 400px; display: flex; flex-direction: column; gap: 0;">
+      <div style="background: #FDF9F0; border: 1.5px solid #24201A; border-radius: 12px; box-shadow: 3px 3px 0 0 rgba(36,32,26,0.14); padding: 20px 22px; display: flex; flex-direction: column; gap: 13px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between;">
+          <div style="font-family: 'IBM Plex Mono', Menlo, monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.14em; color: #C7521F;">INGREDIENTS &middot; 11</div>
+          <div style="font-family: 'IBM Plex Mono', Menlo, monospace; font-size: 10px; color: #8A7F70;">TAP TO CHECK OFF</div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 9px; font-size: 14px; line-height: 1.35;">
+          <div style="display: flex; gap: 11px; align-items: baseline;"><div style="font-family: 'IBM Plex Mono', Menlo, monospace; font-size: 12px; font-weight: 600; color: #9C3E14; flex: 0 0 72px; text-align: right;">2 lb</div><div>chicken thighs, bone-in</div></div>
+          <div style="display: flex; gap: 11px; align-items: baseline;"><div style="font-family: 'IBM Plex Mono', Menlo, monospace; font-size: 12px; font-weight: 600; color: #9C3E14; flex: 0 0 72px; text-align: right;">1&frac12; lb</div><div>baby yellow potatoes, halved</div></div>
+          <div style="display: flex; gap: 11px; align-items: baseline;"><div style="font-family: 'IBM Plex Mono', Menlo, monospace; font-size: 12px; font-weight: 600; color: #9C3E14; flex: 0 0 72px; text-align: right;">2</div><div>lemons &mdash; one juiced, one sliced</div></div>
+          <div style="display: flex; gap: 11px; align-items: baseline; color: #8A7F70;"><div style="font-family: 'IBM Plex Mono', Menlo, monospace; font-size: 12px; font-weight: 600; flex: 0 0 72px; text-align: right; text-decoration: line-through;">6 cloves</div><div style="text-decoration: line-through;">garlic, smashed</div><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#5F7F4C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex: none; align-self: center;"><path d="M4 12l5 5L20 6"></path></svg></div>
+          <div style="display: flex; gap: 11px; align-items: baseline;"><div style="font-family: 'IBM Plex Mono', Menlo, monospace; font-size: 12px; font-weight: 600; color: #9C3E14; flex: 0 0 72px; text-align: right;">&frac14; cup</div><div>olive oil</div></div>
+          <div style="display: flex; gap: 11px; align-items: baseline;"><div style="font-family: 'IBM Plex Mono', Menlo, monospace; font-size: 12px; font-weight: 600; color: #9C3E14; flex: 0 0 72px; text-align: right;">2 tbsp</div><div>butter, cubed</div></div>
+          <div style="display: flex; gap: 11px; align-items: baseline;"><div style="font-family: 'IBM Plex Mono', Menlo, monospace; font-size: 12px; font-weight: 600; color: #9C3E14; flex: 0 0 72px; text-align: right;">1 tbsp</div><div>dried oregano</div></div>
+          <div style="display: flex; gap: 11px; align-items: baseline;"><div style="font-family: 'IBM Plex Mono', Menlo, monospace; font-size: 12px; font-weight: 600; color: #9C3E14; flex: 0 0 72px; text-align: right;">2 tsp</div><div>smoked paprika</div></div>
+          <div style="display: flex; gap: 11px; align-items: baseline;"><div style="font-family: 'IBM Plex Mono', Menlo, monospace; font-size: 12px; font-weight: 600; color: #9C3E14; flex: 0 0 72px; text-align: right;">1 tsp</div><div>kosher salt</div></div>
+          <div style="display: flex; gap: 11px; align-items: baseline;"><div style="font-family: 'IBM Plex Mono', Menlo, monospace; font-size: 12px; font-weight: 600; color: #9C3E14; flex: 0 0 72px; text-align: right;">&frac12; tsp</div><div>black pepper</div></div>
+          <div style="display: flex; gap: 11px; align-items: baseline;"><div style="font-family: 'IBM Plex Mono', Menlo, monospace; font-size: 12px; font-weight: 600; color: #9C3E14; flex: 0 0 72px; text-align: right;">&frac14; cup</div><div>fresh parsley, chopped &mdash; to finish</div></div>
+        </div>
+        <div style="border-top: 1px dashed #D9CFBA; padding-top: 11px; font-family: 'IBM Plex Mono', Menlo, monospace; font-size: 10px; letter-spacing: 0.06em; color: #8A7F70;">SCALING &times;1 &middot; QUANTITIES REFLOW WITH SERVES</div>
+      </div>
+    </div>
+
+    <!-- Steps -->
+    <div style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 16px; overflow: hidden;">
+      <div style="display: flex; align-items: baseline; justify-content: space-between;">
+        <div style="font-family: 'IBM Plex Mono', Menlo, monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.14em; color: #C7521F;">THE WAY &middot; 6 STEPS</div>
+        <div style="font-family: 'IBM Plex Mono', Menlo, monospace; font-size: 10px; color: #8A7F70;">BIG TYPE &mdash; READS FROM ACROSS THE COUNTER</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 15px;">
+        <div style="display: flex; gap: 16px;">
+          <div style="flex: 0 0 34px; font-size: 24px; font-weight: 800; color: #C7521F; line-height: 1.2;">1</div>
+          <div style="font-size: 16.5px; line-height: 1.55; color: #3C352C;">Heat the oven to 425&deg;F. Toss the potatoes with half the olive oil, half the oregano, and a big pinch of salt on a sheet pan; roast 10 minutes while you prep the chicken.</div>
+        </div>
+        <div style="display: flex; gap: 16px;">
+          <div style="flex: 0 0 34px; font-size: 24px; font-weight: 800; color: #C7521F; line-height: 1.2;">2</div>
+          <div style="font-size: 16.5px; line-height: 1.55; color: #3C352C;">Pat the chicken dry. Rub with the remaining oil, oregano, paprika, salt, and pepper.</div>
+        </div>
+        <div style="display: flex; gap: 16px;">
+          <div style="flex: 0 0 34px; font-size: 24px; font-weight: 800; color: #C7521F; line-height: 1.2;">3</div>
+          <div style="font-size: 16.5px; line-height: 1.55; color: #3C352C;">Pull the pan, push the potatoes aside, and nestle in the chicken. Scatter the garlic, lemon slices, and butter over everything.</div>
+        </div>
+        <div style="display: flex; gap: 16px;">
+          <div style="flex: 0 0 34px; font-size: 24px; font-weight: 800; color: #C7521F; line-height: 1.2;">4</div>
+          <div style="font-size: 16.5px; line-height: 1.55; color: #3C352C;">Roast 22&ndash;25 minutes, until the chicken hits 165&deg;F and the potatoes are golden at the edges.</div>
+        </div>
+        <div style="display: flex; gap: 16px;">
+          <div style="flex: 0 0 34px; font-size: 24px; font-weight: 800; color: #C7521F; line-height: 1.2;">5</div>
+          <div style="font-size: 16.5px; line-height: 1.55; color: #3C352C;">Squeeze the lemon juice over the pan and rest 5 minutes.</div>
+        </div>
+        <div style="display: flex; gap: 16px;">
+          <div style="flex: 0 0 34px; font-size: 24px; font-weight: 800; color: #C7521F; line-height: 1.2;">6</div>
+          <div style="font-size: 16.5px; line-height: 1.55; color: #3C352C;">Shower with parsley and serve straight off the pan.</div>
+        </div>
+      </div>
+      <div style="margin-top: auto; border-top: 1px solid #D9CFBA; padding: 12px 0 20px 0; display: flex; align-items: center; gap: 10px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A7F70" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6-6 6 6"></path><path d="M6 15l6 6 6-6"></path></svg>
+        <div style="font-family: 'IBM Plex Mono', Menlo, monospace; font-size: 10.5px; letter-spacing: 0.04em; color: #8A7F70;">FORGED FROM 3,898 WORDS &rarr; 486 &middot; ORIGINAL ALWAYS ONE CLICK AWAY</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>
