@@ -84,7 +84,10 @@ export default function MarketBoard({ weekStart, periodLabel, span = 1, dinnerCo
       for (const e of extras) lines.push(`  [${checked.has(`extra:${e.id}`) ? 'x' : ' '}] ${e.label}`);
     }
     if (spiceRail?.items.length) {
-      lines.push('', 'CHECK THE SPICE RAIL', `  ${spiceRail.items.map((i) => i.item).join(' · ')}`);
+      lines.push('', 'SPICE RAIL · [x] = ALREADY IN THE CUPBOARD');
+      for (const it of spiceRail.items) {
+        lines.push(`  [${checked.has(it.key) ? 'x' : ' '}] ${it.item}`);
+      }
     }
     navigator.clipboard?.writeText(lines.join('\n')).then(() => {
       setCopied(true);

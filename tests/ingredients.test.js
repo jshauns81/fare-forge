@@ -29,6 +29,21 @@ test('parses container sizes and articles', () => {
   assert.equal(pinch.item, 'flaky salt');
 });
 
+test('recognizes two-token volume units', () => {
+  const p = parseIngredient('8 fl oz milk');
+  assert.equal(p.unit, 'fl oz');
+  assert.equal(p.item, 'milk');
+
+  const groups = buildMarketList([
+    { raw: '8 fl oz milk', recipeTitle: 'A' },
+    { raw: '1 cup milk', recipeTitle: 'B' },
+  ]);
+  const milk = groups.flatMap((g) => g.items).find((i) => i.item === 'milk');
+  assert.equal(milk.qty, '2 cups'); // 8 fl oz + 1 cup, volume-merged
+
+  assert.equal(parseIngredient('2 fluid ounces cream').unit, 'fl oz');
+});
+
 test('ranges shop for the upper bound', () => {
   assert.equal(parseIngredient('1-2 jalapeños, sliced').qty, 2);
   assert.equal(parseIngredient('2 to 3 tbsp olive oil').qty, 3);

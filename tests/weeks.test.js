@@ -13,9 +13,11 @@ test('shiftWeek moves whole weeks', () => {
   assert.equal(shiftWeek('2026-08-24', -2), '2026-08-10');
 });
 
-test('isValidWeekStart only accepts Mondays', () => {
+test('isValidWeekStart only accepts real Mondays', () => {
   assert.equal(isValidWeekStart('2026-08-24'), true);
   assert.equal(isValidWeekStart('2026-08-25'), false);
+  assert.equal(isValidWeekStart('2026-02-30'), false); // normalizes to a Monday but isn't a date
+  assert.equal(isValidWeekStart('2026-13-05'), false);
   assert.equal(isValidWeekStart('nope'), false);
   assert.equal(isValidWeekStart(undefined), false);
 });

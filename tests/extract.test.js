@@ -6,7 +6,7 @@ import path from 'node:path';
 
 process.env.FARE_FORGE_ALLOW_LOCAL = '1';
 
-const { forgeFromUrl, forgeFromText, ForgeError, parseISODuration, parseYield } = await import('../lib/extract.js');
+const { forgeFromUrl, forgeFromText, ForgeError, parseISODuration, parseYield, isPrivateIp } = await import('../lib/extract.js');
 
 const FIXTURES = path.join(import.meta.dirname, 'fixtures');
 const read = (name) => readFileSync(path.join(FIXTURES, name), 'utf8');
@@ -18,6 +18,7 @@ test.before(async () => {
   server = http.createServer((req, res) => {
     const routes = {
       '/blog': 'jsonld-blog.html',
+      '/expanded': 'jsonld-expanded.html',
       '/microdata': 'microdata.html',
       '/wprm': 'wprm.html',
       '/none': 'no-recipe.html',
@@ -76,6 +77,28 @@ test('forges a JSON-LD blog page down to the recipe', async () => {
   assert.ok(recipe.strip.removedWords > 200);
   assert.ok(report.some((line) => line.includes('JSON-LD')));
   assert.ok(recipe.tags.includes('chicken'));
+});
+
+test('accepts expanded schema.org type identifiers in JSON-LD', async () => {
+  const { recipe } = await forgeFromUrl(`${base}/expanded`);
+  assert.equal(recipe.title, 'Weeknight Pantry Fried Rice');
+  assert.equal(recipe.ingredients.length, 5);
+  assert.equal(recipe.steps.length, 3);
+  assert.equal(recipe.servings, 4);
+});
+
+test('private-address detection covers mapped and hex IPv6 forms', () => {
+  assert.equal(isPrivateIp('127.0.0.1'), true);
+  assert.equal(isPrivateIp('169.254.169.254'), true);
+  assert.equal(isPrivateIp('::1'), true);
+  assert.equal(isPrivateIp('::ffff:127.0.0.1'), true);
+  assert.equal(isPrivateIp('::ffff:7f00:1'), true); // hex-normalized 127.0.0.1
+  assert.equal(isPrivateIp('::ffff:a9fe:a9fe'), true); // hex 169.254.169.254
+  assert.equal(isPrivateIp('::ffff:c0a8:101'), true); // hex 192.168.1.1
+  assert.equal(isPrivateIp('[::ffff:7f00:1]'), true); // bracketed hostname form
+  assert.equal(isPrivateIp('::ffff:808:808'), false); // hex 8.8.8.8 — public
+  assert.equal(isPrivateIp('8.8.8.8'), false);
+  assert.equal(isPrivateIp('2606:4700::1111'), false);
 });
 
 test('falls back to microdata', async () => {
