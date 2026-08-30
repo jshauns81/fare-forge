@@ -1,0 +1,23 @@
+{
+  "pages": [
+    { "id": "page-1", "name": "Framework" },
+    { "id": "page-2", "name": "Directions" }
+  ],
+  "artboards": [
+    { "file": "Foundation.dc.html", "x": 0, "y": 0, "w": 1120, "h": 860, "page": "page-1", "title": "Foundation & pipeline" },
+    { "file": "Main.dc.html", "x": 1240, "y": 0, "w": 1440, "h": 900, "page": "page-1", "title": "Week Board" },
+    { "file": "Import.dc.html", "x": 0, "y": 1060, "w": 1440, "h": 900, "page": "page-1", "title": "The Forge — import flow" },
+    { "file": "Recipe.dc.html", "x": 1560, "y": 1060, "w": 1440, "h": 900, "page": "page-1", "title": "Clean recipe view" },
+    { "file": "Shopping.dc.html", "x": 0, "y": 2140, "w": 1440, "h": 900, "page": "page-1", "title": "Market List" },
+    { "file": "AltGalley.dc.html", "x": 0, "y": 0, "w": 900, "h": 640, "page": "page-2", "title": "Direction B — Galley Ledger" },
+    { "file": "AltMidnight.dc.html", "x": 1020, "y": 0, "w": 900, "h": 640, "page": "page-2", "title": "Direction C — Midnight Diner" }
+  ],
+  "annotations": [
+    { "id": "direction-note", "x": 0, "y": -180, "w": 320, "page": "page-1", "text": "Direction: butcher-paper editorial x forge. Warm paper, iron panels, one ember accent, letterpress cards with hard offset shadows. Bricolage Grotesque + IBM Plex Mono.\nRepo was empty - no design system to match, so this commits to a bold default; two alternates sit on the Directions page." },
+    { "id": "board-note", "x": 1240, "y": -180, "w": 300, "page": "page-1", "text": "Week Board = home. Dinners by default (lunch/breakfast rows are a later setting). Weekend columns tinted. Cards carry time, serves, and one optional tag - nothing else." },
+    { "id": "forge-note", "x": -360, "y": 1060, "w": 320, "page": "page-1", "text": "The Forge shows all three beats on one screen - no wizard. Extractor order: JSON-LD, then microdata, then heuristics; paste-the-page-text fallback for robot-blocking sites. The strip report is the product's signature moment." },
+    { "id": "market-note", "x": -360, "y": 2140, "w": 320, "page": "page-1", "text": "Market List aggregates the week's recipes: same item + compatible units merge (with a per-recipe source count), aisle-sorted. Spice rail is check-the-cupboard, not buy. Prints as a one-page receipt." },
+    { "id": "directions-note", "x": 0, "y": -160, "w": 340, "page": "page-2", "text": "Two alternate directions, low-fi on purpose. If either fits the family better than the forge identity, say so and the framework page gets rebuilt in that direction." }
+  ],
+  "launch": { "view": "canvas", "page": "page-1" }
+}

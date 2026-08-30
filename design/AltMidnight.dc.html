@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; font-family: Menlo, 'Courier New', monospace; }
+    a { color: #9EDDB2; } a:hover { color: #6FBF8A; }
+  </style>
+</helmet>
+<div style="width: 900px; height: 640px; box-sizing: border-box; background: #131110; color: #E8E3D8; padding: 32px 36px; display: flex; flex-direction: column; gap: 18px; overflow: hidden;">
+
+  <div style="display: flex; align-items: baseline; justify-content: space-between; border-bottom: 1px solid #3A3630; padding-bottom: 12px;">
+    <div style="display: flex; flex-direction: column; gap: 4px;">
+      <div style="font-size: 10px; letter-spacing: 0.16em; color: #6F6A5F;">DIRECTION C &mdash; LOW-FI SKETCH</div>
+      <div style="font-size: 28px; font-weight: 700; letter-spacing: 0.02em; color: #9EDDB2;">MIDNIGHT DINER</div>
+    </div>
+    <div style="font-size: 10px; color: #6F6A5F;">DARK &middot; MONO &middot; SIGN-GLOW ACCENTS</div>
+  </div>
+
+  <div style="font-size: 13px; line-height: 1.65; color: #A8A296; max-width: 640px; font-family: Menlo, monospace;">Late-night diner menu board: near-black surfaces, everything monospace, a single mint sign-glow for actions. Built for planning at 9pm after the kids are down.</div>
+
+  <!-- Week strip sketch -->
+  <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px;">
+    <div style="background: #1D1A17; border: 1px solid #3A3630; border-radius: 6px; padding: 10px; display: flex; flex-direction: column; gap: 8px;"><div style="font-size: 9px; color: #6F6A5F;">MON</div><div style="height: 8px; background: #35312B; border-radius: 2px;"></div><div style="height: 8px; background: #35312B; border-radius: 2px; width: 70%;"></div></div>
+    <div style="background: #1D1A17; border: 1px solid #3A3630; border-radius: 6px; padding: 10px; display: flex; flex-direction: column; gap: 8px;"><div style="font-size: 9px; color: #6F6A5F;">TUE</div><div style="height: 8px; background: #35312B; border-radius: 2px;"></div><div style="height: 8px; background: #35312B; border-radius: 2px; width: 55%;"></div></div>
+    <div style="background: #1D1A17; border: 1px dashed #3A3630; border-radius: 6px; padding: 10px; display: flex; flex-direction: column; gap: 8px;"><div style="font-size: 9px; color: #6F6A5F;">WED</div><div style="font-size: 10px; color: #55504A;">leftovers</div></div>
+    <div style="background: #1D1A17; border: 1px solid #3A3630; border-radius: 6px; padding: 10px; display: flex; flex-direction: column; gap: 8px;"><div style="font-size: 9px; color: #6F6A5F;">THU</div><div style="height: 8px; background: #35312B; border-radius: 2px;"></div><div style="height: 8px; background: #35312B; border-radius: 2px; width: 62%;"></div></div>
+    <div style="background: #1D1A17; border: 1px solid #9EDDB2; border-radius: 6px; padding: 10px; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 0 14px 0 rgba(158,221,178,0.25);"><div style="font-size: 9px; color: #9EDDB2;">FRI</div><div style="height: 8px; background: #35312B; border-radius: 2px;"></div><div style="height: 8px; background: #35312B; border-radius: 2px; width: 48%;"></div></div>
+    <div style="background: #1D1A17; border: 1px dashed #3A3630; border-radius: 6px; padding: 10px; display: flex; flex-direction: column; gap: 8px;"><div style="font-size: 9px; color: #6F6A5F;">SAT</div><div style="font-size: 12px; color: #55504A;">+</div></div>
+    <div style="background: #1D1A17; border: 1px solid #3A3630; border-radius: 6px; padding: 10px; display: flex; flex-direction: column; gap: 8px;"><div style="font-size: 9px; color: #6F6A5F;">SUN</div><div style="height: 8px; background: #35312B; border-radius: 2px;"></div><div style="height: 8px; background: #35312B; border-radius: 2px; width: 76%;"></div></div>
+  </div>
+
+  <!-- List + recipe sketch -->
+  <div style="display: flex; gap: 24px; flex: 1 1 auto; min-height: 0;">
+    <div style="flex: 1; background: #1D1A17; border: 1px solid #3A3630; border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 9px;">
+      <div style="font-size: 9px; letter-spacing: 0.14em; color: #6F6A5F;">MARKET LIST</div>
+      <div style="height: 8px; background: #35312B; border-radius: 2px; width: 80%;"></div>
+      <div style="height: 8px; background: #35312B; border-radius: 2px; width: 64%;"></div>
+      <div style="height: 8px; background: #35312B; border-radius: 2px; width: 72%;"></div>
+      <div style="height: 8px; background: #35312B; border-radius: 2px; width: 52%;"></div>
+    </div>
+    <div style="flex: 1; background: #1D1A17; border: 1px solid #3A3630; border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 9px;">
+      <div style="font-size: 9px; letter-spacing: 0.14em; color: #6F6A5F;">RECIPE VIEW</div>
+      <div style="height: 13px; background: #45403A; border-radius: 2px; width: 58%;"></div>
+      <div style="height: 8px; background: #35312B; border-radius: 2px; width: 88%;"></div>
+      <div style="height: 8px; background: #35312B; border-radius: 2px; width: 84%;"></div>
+    </div>
+    <div style="flex: 0 0 260px; border-left: 1px solid #3A3630; padding-left: 20px; display: flex; flex-direction: column; gap: 10px;">
+      <div style="font-size: 9px; letter-spacing: 0.14em; color: #6F6A5F;">WHY / TRADEOFF</div>
+      <div style="font-size: 11.5px; line-height: 1.6; color: #A8A296;">Why: easy on the eyes for evening planning; strong personality; feels like an app, fast.</div>
+      <div style="font-size: 11.5px; line-height: 1.6; color: #A8A296;">Tradeoff: dark UIs print badly (list needs invert); mono-everything slows long recipe reads.</div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>
