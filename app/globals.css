@@ -381,7 +381,7 @@ input:focus, textarea:focus { outline: 2px solid var(--ember); outline-offset: 1
   justify-content: center;
   color: var(--ash);
 }
-.meal-card:hover .meal-clear { display: inline-flex; }
+.meal-card:hover .meal-clear, .note-card:hover .meal-clear { display: inline-flex; }
 .meal-clear:hover { background: var(--recess); color: var(--ember-deep); }
 
 .note-card {
@@ -397,6 +397,8 @@ input:focus, textarea:focus { outline: 2px solid var(--ember); outline-offset: 1
   width: 100%;
 }
 .note-card .meal-title { color: var(--ash-deep); font-size: 14px; }
+.note-edit { display: flex; align-items: center; gap: 7px; width: 100%; text-align: left; }
+.note-edit:hover .meal-title { text-decoration: underline; text-underline-offset: 3px; }
 
 .empty-slot {
   border: 1.5px dashed var(--ash);
@@ -465,6 +467,8 @@ input:focus, textarea:focus { outline: 2px solid var(--ember); outline-offset: 1
 .picker-row-title { font-size: 14px; font-weight: 600; }
 .picker-row-meta { font-family: var(--font-mono); font-size: 10px; color: var(--ash); text-transform: uppercase; }
 .picker-note-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.quick-meal-row { display: flex; gap: 8px; }
+.quick-meal-row input { flex: 1; min-width: 0; }
 
 /* ---------- forge page ---------- */
 

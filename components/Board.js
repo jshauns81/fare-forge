@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Plus, Redo, X } from '@/components/icons';
 
-const NOTE_PRESETS = ['Leftovers', 'Eating out', 'Takeout night', 'Fend for yourself'];
+const NOTE_PRESETS = ['Eat Out', 'Sandwiches', 'Leftovers', 'Takeout'];
 
 function minutesLabel(min) {
   if (min == null) return null;
@@ -115,10 +115,15 @@ export default function Board({ weeks, recipes, showWeekHeads = false }) {
                       </div>
                     ) : entry && entry.kind === 'note' ? (
                       <div className="note-card" draggable onDragStart={(e) => onDragStart(e, w.weekStart, day)}>
-                        <span style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                        <button
+                          className="note-edit"
+                          disabled={busy}
+                          onClick={() => setPicker({ weekStart: w.weekStart, day, abbr, rel: w.rel, note: entry.note })}
+                          aria-label={`Change ${abbr} ${dateNum} — ${entry.note}`}
+                        >
                           <Redo size={14} stroke="#8A7F70" />
                           <span className="meal-title">{entry.note}</span>
-                        </span>
+                        </button>
                         <button
                           className="meal-clear"
                           aria-label={`Clear ${abbr} ${dateNum}`}
@@ -150,7 +155,8 @@ export default function Board({ weeks, recipes, showWeekHeads = false }) {
 
       {picker != null && (
         <Picker
-          heading={`Plan ${picker.abbr.charAt(0) + picker.abbr.slice(1).toLowerCase()}${picker.rel && picker.rel !== 'This week' ? ` · ${picker.rel.toLowerCase()}` : ''}`}
+          heading={`${picker.note ? 'Change' : 'Plan'} ${picker.abbr.charAt(0) + picker.abbr.slice(1).toLowerCase()}${picker.rel && picker.rel !== 'This week' ? ` · ${picker.rel.toLowerCase()}` : ''}`}
+          initialNote={picker.note || ''}
           recipes={recipes}
           onClose={() => setPicker(null)}
           onPickRecipe={(id) => {
@@ -169,7 +175,8 @@ export default function Board({ weeks, recipes, showWeekHeads = false }) {
   );
 }
 
-function Picker({ heading, recipes, onClose, onPickRecipe, onPickNote }) {
+function Picker({ heading, initialNote = '', recipes, onClose, onPickRecipe, onPickNote }) {
+  const [note, setNote] = useState(initialNote);
   const [q, setQ] = useState('');
   const filtered = useMemo(() => {
     const needle = q.trim().toLowerCase();
@@ -178,6 +185,12 @@ function Picker({ heading, recipes, onClose, onPickRecipe, onPickNote }) {
       (r) => r.title.toLowerCase().includes(needle) || r.tags?.some((t) => t.includes(needle)),
     );
   }, [q, recipes]);
+
+  function submitNote(e) {
+    e.preventDefault();
+    const label = note.trim().slice(0, 80);
+    if (label) onPickNote(label);
+  }
 
   return (
     <div className="modal-scrim" onClick={onClose}>
@@ -189,12 +202,19 @@ function Picker({ heading, recipes, onClose, onPickRecipe, onPickNote }) {
           </button>
         </div>
         <div className="modal-body">
-          <input
-            autoFocus
-            placeholder="Search the Recipe Box…"
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-          />
+          <form className="quick-meal-row" onSubmit={submitNote}>
+            <input
+              autoFocus
+              onFocus={(e) => e.target.select()}
+              placeholder="Quick meal — Hamburgers, Pizza Night…"
+              aria-label="Quick meal"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+            />
+            <button type="submit" className="btn btn-ember" disabled={!note.trim()}>
+              Add
+            </button>
+          </form>
           <div className="picker-note-row">
             {NOTE_PRESETS.map((n) => (
               <button key={n} className="staple-chip" onClick={() => onPickNote(n)}>
@@ -202,6 +222,13 @@ function Picker({ heading, recipes, onClose, onPickRecipe, onPickNote }) {
               </button>
             ))}
           </div>
+          <span className="mono-hint">Or plan a recipe from the box</span>
+          <input
+            placeholder="Search the Recipe Box…"
+            aria-label="Search the Recipe Box"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+          />
           {filtered.length === 0 ? (
             <p className="mono-hint" style={{ margin: '8px 0' }}>
               Nothing in the box matches — forge a new recipe from a link

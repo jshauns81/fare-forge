@@ -14,10 +14,11 @@ export async function POST(req) {
   try {
     if (op === 'set') {
       const { weekStart, day, recipeId, note } = body;
-      if (!isValidWeekStart(weekStart) || !(day >= 0 && day <= 6) || (!recipeId && !note)) {
+      const label = note == null ? null : String(note).trim().slice(0, 80).trimEnd() || null;
+      if (!isValidWeekStart(weekStart) || !(day >= 0 && day <= 6) || (!recipeId && !label)) {
         return NextResponse.json({ error: 'Bad request' }, { status: 400 });
       }
-      setPlanEntry({ weekStart, day, recipeId: recipeId ?? null, note: note ? String(note).slice(0, 80) : null });
+      setPlanEntry({ weekStart, day, recipeId: recipeId ?? null, note: label });
       return NextResponse.json({ ok: true });
     }
 
