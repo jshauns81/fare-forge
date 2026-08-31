@@ -101,7 +101,7 @@ export default async function WeekBoardPage({ searchParams }) {
 
       <div className="board-hint">
         <Flame size={14} />
-        <span className="mono-hint">Drag a dinner to any day — either week · click an empty slot to plan it · everything lands on the market list</span>
+        <span className="mono-hint">Drag a dinner to any day — either week · click an empty slot to plan it · recipe ingredients land on the market list</span>
       </div>
     </>
   );

@@ -1,6 +1,6 @@
 # Fare Forge Burndown
 
-Last updated: 2026-08-30
+Last updated: 2026-08-31
 
 This is the ordered work queue for Fare Forge. It is intentionally split into
 small pieces so one behavior can be built, tested, and tried by the family
@@ -57,10 +57,23 @@ Acceptance checks:
 
 ## Next — make ordinary meals effortless
 
-### [ ] FF-101 — Add a plain-text dinner
+### [x] FF-101 — Add a plain-text dinner
 
 User outcome: Friday can say `Hamburgers` without importing or creating a
 recipe.
+
+Done 2026-08-31. The slot picker now opens on a focused `Quick meal` field:
+type `Hamburgers`, press Enter — two actions. One-tap chips offer Eat Out,
+Sandwiches, Leftovers, and Takeout without limiting free text. Tapping a
+plain meal reopens the picker prefilled so it can be relabeled or replaced
+with a recipe; whitespace-only labels are rejected server-side. Observed in
+a scripted browser run against a production build (add, reload, relabel,
+replace with recipe, drag to another day, remove, market list stays empty)
+plus regression tests at the database boundary.
+
+Follow-up discovered: the clear button on plain-meal cards was hover-only
+and therefore unreachable — hover parity is fixed here; the no-hover and
+touch route remains FF-104 scope.
 
 Recommended interaction:
 
